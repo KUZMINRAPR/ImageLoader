@@ -1,0 +1,56 @@
+﻿<Window x:Class="ImageLoader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageLoader"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <!-- Первый Image -->
+        
+        <Image Margin="46,48,543,257"></Image>
+        <TextBox Text="Введите Url картинки"
+                 FontSize="20"
+                 Margin="55,204,545,189"></TextBox>
+        <Button Name="StartButton1"
+                Margin="92,264,565,139"
+                Content="Start"
+                FontSize="20"></Button>
+        <Button Name="StopButton1" 
+                Margin="92,310,565,95"
+                Content="Stop"
+                FontSize="20"></Button>
+        
+        <!-- Второй Image -->
+        <Image Margin="301,42,269,258"></Image>
+        <TextBox Margin="297,211,286,197"
+                 Text="Введите Url картинки"
+                 FontSize="20"></TextBox>
+        <Button Name="StartButton2" 
+                Margin="328,267,329,139"
+                Content="Start"
+                FontSize="20"></Button>
+        <Button Name="StopButton2" 
+                Margin="328,311,329,95"
+                Content="Stop"
+                FontSize="20"></Button>
+        
+        <!-- Третий Image -->
+        <Image Margin="561,37,10,255"></Image>
+        <TextBox Margin="579,209,6,199"
+                 Text="Введите Url картинки"
+                 FontSize="20"></TextBox>
+        <Button Name="StartButton3" 
+                Margin="617,265,40,139"
+                Content="Start"
+                FontSize="20"></Button>
+        <Button Name="StopButton3" 
+                Margin="617,309,40,95"
+                Content="Stop"
+                FontSize="20"></Button>
+        
+        <!-- Прогресс бар для всех трех -->
+        <ProgressBar Margin="211,371,209,33"></ProgressBar>
+    </Grid>
+</Window>
