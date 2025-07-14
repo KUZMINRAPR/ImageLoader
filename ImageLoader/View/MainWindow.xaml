@@ -4,53 +4,152 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageLoader"
+        xmlns:vm="clr-namespace:ImageLoader.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="600" Width="800" >
+        <Window.Resources>
+                <vm:ImageConverter x:Key="ImageConverter"></vm:ImageConverter>
+        </Window.Resources>
+        <Window.DataContext>
+                <vm:MainViewModel></vm:MainViewModel>
+        </Window.DataContext>
+<Grid>
+        <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="0.3*"></RowDefinition>
+                <RowDefinition Height="0.25*"></RowDefinition>
+                <RowDefinition Height="0.25*"></RowDefinition>
+                <RowDefinition Height="0.25*"></RowDefinition>
+                <RowDefinition Height="0.3*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <!-- Первый Image -->
         
-        <Image Margin="46,48,543,257"></Image>
-        <TextBox Text="Введите Url картинки"
-                 FontSize="20"
-                 Margin="55,204,545,189"></TextBox>
-        <Button Name="StartButton1"
-                Margin="92,264,565,139"
+        <Image Grid.Row="0" Grid.Column="0" 
+               Height="Auto"
+               Width="Auto"
+               Source="{Binding StartViewModel.Images[0]}"></Image>
+        
+        <TextBox Grid.Row="1" Grid.Column="0" FontSize="20"
+                 Margin="15"
+                 Width="Auto"
+                 Height="Auto"
+                 Name="tb1">Введите Url картинки</TextBox>
+        
+        <Button Grid.Row="2" Grid.Column="0" Name="StartButton1"
+                Width="Auto"
+                Height="Auto"
                 Content="Start"
-                FontSize="20"></Button>
-        <Button Name="StopButton1" 
-                Margin="92,310,565,95"
+                FontSize="20"
+                Command="{Binding StartViewModel.UpdateImageCommand}">
+                        <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource ImageConverter}">
+                                        <Binding ElementName="tb1" Path="Text"></Binding>
+                                        <Binding>
+                                                <Binding.Source>0</Binding.Source>
+                                        </Binding>
+                                </MultiBinding>
+                        </Button.CommandParameter>
+        </Button>
+        
+        <Button Grid.Row="3" Grid.Column="0" Name="StopButton1" 
                 Content="Stop"
-                FontSize="20"></Button>
+                FontSize="20"
+                Command="{Binding StopViewModel.StopImageCommand}">
+                <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource ImageConverter}">
+                                <Binding ElementName="tb1" Path="Text"></Binding>
+                                <Binding>
+                                        <Binding.Source>0</Binding.Source>
+                                </Binding>
+                        </MultiBinding>
+                </Button.CommandParameter>
+        </Button>
         
         <!-- Второй Image -->
-        <Image Margin="301,42,269,258"></Image>
-        <TextBox Margin="297,211,286,197"
-                 Text="Введите Url картинки"
-                 FontSize="20"></TextBox>
-        <Button Name="StartButton2" 
-                Margin="328,267,329,139"
+        <Image Grid.Row="0" Grid.Column="1"
+               Source="{Binding StartViewModel.Images[1]}"></Image>
+        
+        <TextBox Grid.Row="1" Grid.Column="1" 
+                 Name="tb2"
+                 FontSize="20"
+                 Width="200"
+                 Height="50">Введите Url картинки</TextBox>
+        
+        <Button Grid.Row="2" Grid.Column="1" Name="StartButton2" 
                 Content="Start"
-                FontSize="20"></Button>
-        <Button Name="StopButton2" 
-                Margin="328,311,329,95"
-                Content="Stop"
-                FontSize="20"></Button>
+                FontSize="20"
+                Command="{Binding StartViewModel.UpdateImageCommand}">
+                <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource ImageConverter}">
+                                <Binding ElementName="tb2" Path="Text" ></Binding>
+                                <Binding>
+                                        <Binding.Source>1</Binding.Source>
+                                </Binding>
+                        </MultiBinding>
+                </Button.CommandParameter>
+        </Button>
+        
+        <Button  Grid.Row="3" Grid.Column="1" Name="StopButton2" 
+                 Content="Stop"
+                 FontSize="20"
+                 Command="{Binding StopViewModel.StopImageCommand}">
+                <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource ImageConverter}">
+                                <Binding ElementName="tb2" Path="Text"></Binding>
+                                <Binding>
+                                        <Binding.Source>1</Binding.Source>
+                                </Binding>
+                        </MultiBinding>
+                </Button.CommandParameter>
+        </Button>
+        
         
         <!-- Третий Image -->
-        <Image Margin="561,37,10,255"></Image>
-        <TextBox Margin="579,209,6,199"
-                 Text="Введите Url картинки"
-                 FontSize="20"></TextBox>
-        <Button Name="StartButton3" 
-                Margin="617,265,40,139"
+        <Image  Grid.Row="0" Grid.Column="2"
+                Source="{Binding StartViewModel.Images[2]}"></Image>
+                
+        <TextBox Grid.Row="1" Grid.Column="2" 
+                 Name="tb3"
+                 FontSize="20">Введите Url картинки</TextBox>
+                
+        <Button Grid.Row="2" Grid.Column="2" Name="StartButton3" 
                 Content="Start"
-                FontSize="20"></Button>
-        <Button Name="StopButton3" 
-                Margin="617,309,40,95"
+                FontSize="20"
+                Command="{Binding StartViewModel.UpdateImageCommand}">
+                <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource ImageConverter}">
+                                <Binding ElementName="tb3" Path="Text"></Binding>
+                                <Binding>
+                                        <Binding.Source>2</Binding.Source>
+                                </Binding>
+                        </MultiBinding>
+                </Button.CommandParameter>
+        </Button>
+                
+        <Button Grid.Row="3" Grid.Column="2" Name="StopButton3" 
                 Content="Stop"
-                FontSize="20"></Button>
+                FontSize="20"
+                Command="{Binding StopViewModel.StopImageCommand}">
+                <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource ImageConverter}">
+                                <Binding ElementName="tb3" Path="Text"></Binding>
+                                <Binding>
+                                        <Binding.Source>2</Binding.Source>
+                                </Binding>
+                        </MultiBinding>
+                </Button.CommandParameter>
+        </Button>
+                
+        <!-- Кнопка для остановки загрузки всех картинок за раз -->
         
+        <Button Grid.Row="4" Grid.Column="1" FontSize="20">Stop All</Button>
+                
         <!-- Прогресс бар для всех трех -->
-        <ProgressBar Margin="211,371,209,33"></ProgressBar>
+        <ProgressBar Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"></ProgressBar>
     </Grid>
 </Window>

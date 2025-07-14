@@ -1,6 +1,9 @@
-﻿namespace ImageLoader.Model;
+﻿using System.Windows.Input;
+using ImageLoader.Commands;
 
-public class StopModel
+namespace ImageLoader.Model;
+
+class StopModel
 {
     
 }

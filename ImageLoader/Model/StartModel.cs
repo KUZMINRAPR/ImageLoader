@@ -4,20 +4,29 @@ using System.Windows.Media.Imaging;
 
 namespace ImageLoader.Model;
 
-public class StartModel
+public static class StartModel
 {
-    HttpClient client = new HttpClient();
+    private static HttpClient _client = new HttpClient();
 
-    public async Task<BitmapImage> GetImage(string uri)
+    public static async Task<BitmapImage> GetImage(string? uri, CancellationToken token)
     {
-        var response = await client.GetByteArrayAsync(uri);
+        if (uri == null)
+        {
+            throw new ArgumentException("uri пустое");
+        }
+        var response = await _client.GetByteArrayAsync(uri, token);
+        
+        Console.WriteLine("The request has been sent");
+        
         var image = new BitmapImage();
         var stream = new MemoryStream(response);
         
         image.BeginInit();
         image.StreamSource = stream;
         image.EndInit();
-
+        
+        Console.WriteLine("The image has been uploaded");
+        
         return image;
     }
 }

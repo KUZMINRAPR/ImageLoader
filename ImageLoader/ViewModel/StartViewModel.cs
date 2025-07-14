@@ -1,8 +1,115 @@
-﻿using System.Windows.Media.Imaging;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using ImageLoader.Commands;
+using ImageLoader.Model;
 
 namespace ImageLoader.ViewModel;
 
-public class StartViewModel
+public class StartViewModel: INotifyPropertyChanged
 {
-    private Dictionary<string, BitmapImage?> images;
+    private ObservableCollection<BitmapImage> _images = new() {null, null, null};
+    private bool[] _isLoading = new bool[3];
+    private readonly StopViewModel _stopViewModel;
+
+    /// <summary>
+    ///  Список в котором хранятся изображения, полученные из UrI
+    /// </summary>
+    public ObservableCollection<BitmapImage> Images
+    {
+        get => _images;
+        set
+        {
+            _images = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    /// <summary>
+    /// Массив для хранения состояния картинок
+    /// </summary>
+    public bool[] IsLoading
+    {
+        get => _isLoading;
+        set
+        {
+            _isLoading = value;
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Команда для обновления картинки
+    /// </summary>
+    public ICommand UpdateImageCommand { get; }
+
+    public StartViewModel(StopViewModel stopViewModel)
+    {
+        _stopViewModel = stopViewModel;
+        UpdateImageCommand = new RelayCommand(Start, CanStart);
+        _stopViewModel.IsLoading = IsLoading;
+    }
+
+    /// <summary>
+    /// Метод для получения изображений из Model
+    /// </summary>
+    /// <param name="imageConverter">Параметры изображения(Uri и Index картинки слева направо)</param>
+    public async Task Start(object imageConverter)
+    {
+        if (imageConverter is ImageConverter ic && ic.Index is int index)
+        {
+            _stopViewModel.CancellationTokens[index]?.Dispose();
+            _stopViewModel.CancellationTokens[index] = new CancellationTokenSource();
+            var token = _stopViewModel.CancellationTokens[index].Token;
+            try
+            {
+                _isLoading[index] = true;
+                OnPropertyChanged(nameof(IsLoading));
+                CommandManager.InvalidateRequerySuggested();
+
+                Images[index] = await StartModel.GetImage(ic.Uri, token);
+            }
+            catch (OperationCanceledException)
+            {
+                // TODO: Потом если что вместе с консолью писать это на ProgressBar
+                Console.WriteLine($"Image {index} stopped loading ");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                _isLoading[index] = false;
+                OnPropertyChanged(nameof(IsLoading));
+                CommandManager.InvalidateRequerySuggested();
+            }
+        }
+        else throw new ArgumentException("imageConverter is not ImageConverter");
+    }
+
+    private bool CanStart(object parameter)
+    {
+        if (parameter is ImageConverter ic && ic.Index is int idx)
+            return !_isLoading[idx];
+        return true;
+    }
+    
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
 }
