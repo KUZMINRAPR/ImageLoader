@@ -153,6 +153,10 @@
                 CommandParameter="{Binding StartViewModel.Images}">Stop All</Button>
                 
         <!-- Прогресс бар для всех трех -->
-        <ProgressBar Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"></ProgressBar>
+        <ProgressBar Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"
+                     Minimum="0"
+                     Maximum="100"
+                     Value="{Binding StartViewModel.LoadingProgress}">
+        </ProgressBar>
     </Grid>
 </Window>

@@ -69,7 +69,7 @@ public class StopViewModel : INotifyPropertyChanged
     {
         for (int i = 0; i < _cancellationTokens.Length; i++)
         {
-            if (!_cancellationTokens[i].IsCancellationRequested)
+            if (_cancellationTokens[i] != null && !_cancellationTokens[i].IsCancellationRequested)
             {
                 _cancellationTokens[i].Cancel();
                 _isLoading[i] = false;
@@ -82,8 +82,7 @@ public class StopViewModel : INotifyPropertyChanged
 
     private bool CanStopAll(object images)
     {
-        return _isLoading.Any(il => il) ||
-               _cancellationTokens.Any(cts => cts != null && !cts.IsCancellationRequested);
+        return _isLoading.Any(il => il);
     }
 
     // Реализация интерфейса INotifyPropertyChanged

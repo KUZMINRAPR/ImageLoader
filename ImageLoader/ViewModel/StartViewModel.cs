@@ -13,6 +13,7 @@ public class StartViewModel: INotifyPropertyChanged
 {
     private ObservableCollection<BitmapImage> _images = new() {null, null, null};
     private bool[] _isLoading = new bool[3];
+    private ProgressState[] _progressStates = {ProgressState.NotStarted, ProgressState.NotStarted, ProgressState.NotStarted};
     
     private readonly StopViewModel _stopViewModel;
 
@@ -41,6 +42,28 @@ public class StartViewModel: INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+    
+    public ProgressState[] ProgressStates
+    {
+        get => _progressStates;
+        set
+        {
+            _progressStates = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(LoadingProgress));
+        }
+    }
+    public double LoadingProgress
+    {
+        get => Progress.GetProgress(ProgressStates);
+        set
+        {
+            LoadingProgress = value;
+            OnPropertyChanged();
+        }
+    }
+    
+
 
     /// <summary>
     /// Команда для обновления картинки
@@ -65,6 +88,7 @@ public class StartViewModel: INotifyPropertyChanged
             _stopViewModel.CancellationTokens[index]?.Dispose();
             _stopViewModel.CancellationTokens[index] = new CancellationTokenSource();
             var token = _stopViewModel.CancellationTokens[index].Token;
+            ProgressStates[index] = ProgressState.NotStarted;
             try
             {
                 _isLoading[index] = true;
@@ -72,11 +96,15 @@ public class StartViewModel: INotifyPropertyChanged
                 CommandManager.InvalidateRequerySuggested();
 
                 Images[index] = await StartModel.GetImage(ic.Uri, token);
+                
+                ProgressStates[index] = ProgressState.InProgress;
             }
             catch (OperationCanceledException)
             {
                 // TODO: Потом если что вместе с консолью писать это на ProgressBar
                 Console.WriteLine($"Image {index} stopped loading ");
+                ProgressStates[index] = ProgressState.NotStarted;
+                OnPropertyChanged(nameof(LoadingProgress));
             }
             catch (Exception ex)
             {
@@ -85,7 +113,14 @@ public class StartViewModel: INotifyPropertyChanged
             finally
             {
                 _isLoading[index] = false;
+                OnPropertyChanged(nameof(LoadingProgress));
+                await Task.Delay(1000);
+                if (ProgressStates[index] != ProgressState.NotStarted)
+                {
+                    ProgressStates[index] = ProgressState.Completed;
+                };
                 OnPropertyChanged(nameof(IsLoading));
+                OnPropertyChanged(nameof(LoadingProgress));
                 CommandManager.InvalidateRequerySuggested();
             }
         }
