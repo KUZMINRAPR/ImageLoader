@@ -6,7 +6,7 @@ namespace ImageLoader.Model;
 
 public static class StartModel
 {
-    private static HttpClient _client = new HttpClient();
+    private static HttpClient _client = new();
 
     public static async Task<BitmapImage> GetImage(string? uri, CancellationToken token)
     {
@@ -14,6 +14,8 @@ public static class StartModel
         {
             throw new ArgumentException("uri пустое");
         }
+
+        await Task.Delay(3000, token);
         var response = await _client.GetByteArrayAsync(uri, token);
         
         Console.WriteLine("The request has been sent");

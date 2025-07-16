@@ -147,7 +147,10 @@
                 
         <!-- Кнопка для остановки загрузки всех картинок за раз -->
         
-        <Button Grid.Row="4" Grid.Column="1" FontSize="20">Stop All</Button>
+        <Button Grid.Row="4" Grid.Column="1"
+                FontSize="20"
+                Command="{Binding StopViewModel.StopAllImageCommand}"
+                CommandParameter="{Binding StartViewModel.Images}">Stop All</Button>
                 
         <!-- Прогресс бар для всех трех -->
         <ProgressBar Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"></ProgressBar>

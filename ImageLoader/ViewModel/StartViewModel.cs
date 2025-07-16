@@ -13,6 +13,7 @@ public class StartViewModel: INotifyPropertyChanged
 {
     private ObservableCollection<BitmapImage> _images = new() {null, null, null};
     private bool[] _isLoading = new bool[3];
+    
     private readonly StopViewModel _stopViewModel;
 
     /// <summary>
