@@ -3,6 +3,9 @@ using System.Windows.Data;
 
 namespace ImageLoader.ViewModel;
 
+/// <summary>
+/// Класс конвертера для привязки к картинкам
+/// </summary>
 public class ImageConverter : IMultiValueConverter
 {
     public string? Uri { get; set; }

@@ -16,6 +16,6 @@ public static class Progress
         
         Console.WriteLine($"ActiveCount: {ActiveCount}, CompletedCount: {CompletedCount}");
         
-        return (double)CompletedCount / ActiveCount * 100;
+        return CompletedCount / ActiveCount * 100;
     }
 }

@@ -11,11 +11,21 @@ namespace ImageLoader.ViewModel;
 
 public class StopViewModel : INotifyPropertyChanged
 {
+    /// <summary>
+    /// Команда для остановки загрузки картинки
+    /// </summary>
     public ICommand StopImageCommand { get; }
+    
+    /// <summary>
+    /// Команда для остановки загрузки всех картинок
+    /// </summary>
     public ICommand StopAllImageCommand { get;  }
     private CancellationTokenSource[] _cancellationTokens = new CancellationTokenSource[3];
     private bool[] _isLoading = new bool[3];
 
+    /// <summary>
+    /// Свойство в котором хранятся CancellationTokenSource
+    /// </summary>
     public CancellationTokenSource[] CancellationTokens
     {
         get => _cancellationTokens;
@@ -26,6 +36,9 @@ public class StopViewModel : INotifyPropertyChanged
         }
     }
     
+    /// <summary>
+    /// Свойство в котором хранятся состояния загрузки картинок
+    /// </summary>
     public  bool[] IsLoading
     {
         get => _isLoading;
@@ -43,7 +56,11 @@ public class StopViewModel : INotifyPropertyChanged
         StopAllImageCommand = new RelayCommand(StopAll, CanStopAll);
     }
     
-    
+    /// <summary>
+    /// Метод для остановки загрузки картинки
+    /// </summary>
+    /// <param name="imageConverter">объект ImageConverter</param>
+    /// <returns></returns>
     private Task Stop(object imageConverter)
     {
         if (imageConverter is ImageConverter ic && ic.Index is int index)
@@ -55,6 +72,11 @@ public class StopViewModel : INotifyPropertyChanged
         return Task.CompletedTask;
     }
     
+    /// <summary>
+    /// Метод для проверки возможности остановки загрузки картинки
+    /// </summary>
+    /// <param name="imageConverter">объект ImageConverter</param>
+    /// <returns></returns>
     private bool CanStop(object imageConverter)
     {
         if (imageConverter is ImageConverter ic && ic.Index is int index)
@@ -65,6 +87,10 @@ public class StopViewModel : INotifyPropertyChanged
         return false;
     }
 
+    /// <summary>
+    /// Метод для остановки загрузки всех картинок
+    /// </summary>
+    /// <param name="images">объект ObservableCollection BitmapImage</param>
     private Task StopAll(object images)
     {
         for (int i = 0; i < _cancellationTokens.Length; i++)
@@ -80,6 +106,10 @@ public class StopViewModel : INotifyPropertyChanged
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Метод для проверки возможности остановки загрузки всех картинок
+    /// </summary>
+    /// <param name="images">объект ObservableCollection BitmapImage</param>
     private bool CanStopAll(object images)
     {
         return _isLoading.Any(il => il);

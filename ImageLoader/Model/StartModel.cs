@@ -15,7 +15,8 @@ public static class StartModel
             throw new ArgumentException("uri пустое");
         }
 
-        await Task.Delay(3000, token);
+        await Task.Delay(3000, token); // Было добавлено для того, чтобы можно было успеть остановить загрузку
+        
         var response = await _client.GetByteArrayAsync(uri, token);
         
         Console.WriteLine("The request has been sent");

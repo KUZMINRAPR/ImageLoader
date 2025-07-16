@@ -31,7 +31,7 @@ public class StartViewModel: INotifyPropertyChanged
     }
     
     /// <summary>
-    /// Массив для хранения состояния картинок
+    /// Свойство для хранения состояния загрузки картинок
     /// </summary>
     public bool[] IsLoading
     {
@@ -43,6 +43,9 @@ public class StartViewModel: INotifyPropertyChanged
         }
     }
     
+    /// <summary>
+    /// Массив для хранения состояния загрузки картинок
+    /// </summary>
     public ProgressState[] ProgressStates
     {
         get => _progressStates;
@@ -53,6 +56,10 @@ public class StartViewModel: INotifyPropertyChanged
             OnPropertyChanged(nameof(LoadingProgress));
         }
     }
+    
+    /// <summary>
+    /// Свойство, которая хранит прогресс загрузки
+    /// </summary>
     public double LoadingProgress
     {
         get => Progress.GetProgress(ProgressStates);
@@ -114,7 +121,7 @@ public class StartViewModel: INotifyPropertyChanged
             {
                 _isLoading[index] = false;
                 OnPropertyChanged(nameof(LoadingProgress));
-                await Task.Delay(1000);
+                await Task.Delay(1000); // Было добавлено для того, чтобы была видна работоспособность ProgressBar, иначе она очень быстро обновлялась
                 if (ProgressStates[index] != ProgressState.NotStarted)
                 {
                     ProgressStates[index] = ProgressState.Completed;
@@ -127,13 +134,19 @@ public class StartViewModel: INotifyPropertyChanged
         else throw new ArgumentException("imageConverter is not ImageConverter");
     }
 
-    private bool CanStart(object parameter)
+    /// <summary>
+    /// Метод для проверки возможности старта загрузки картинки
+    /// </summary>
+    /// <param name="imageConverter">Объект ImageConverter</param>
+    /// <returns></returns>
+    private bool CanStart(object imageConverter)
     {
-        if (parameter is ImageConverter ic && ic.Index is int idx)
+        if (imageConverter is ImageConverter ic && ic.Index is int idx)
             return !_isLoading[idx];
         return true;
     }
     
+    // Реализация интерфейса INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
