@@ -121,7 +121,9 @@ public class StartViewModel: INotifyPropertyChanged
             {
                 _isLoading[index] = false;
                 OnPropertyChanged(nameof(LoadingProgress));
-                await Task.Delay(1000); // Было добавлено для того, чтобы была видна работоспособность ProgressBar, иначе она очень быстро обновлялась
+                
+                await Task.Delay(500); // Было добавлено для того, чтобы была видна работоспособность ProgressBar, иначе он очень быстро обновлялся
+                
                 if (ProgressStates[index] != ProgressState.NotStarted)
                 {
                     ProgressStates[index] = ProgressState.Completed;

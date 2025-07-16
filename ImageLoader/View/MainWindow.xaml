@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ImageLoader"
         xmlns:vm="clr-namespace:ImageLoader.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" >
+        Title="ImageLoader" Height="600" Width="800" >
         <Window.Resources>
                 <vm:ImageConverter x:Key="ImageConverter"></vm:ImageConverter>
         </Window.Resources>
@@ -30,19 +30,14 @@
         <!-- Первый Image -->
         
         <Image Grid.Row="0" Grid.Column="0" 
-               Height="Auto"
-               Width="Auto"
                Source="{Binding StartViewModel.Images[0]}"></Image>
         
         <TextBox Grid.Row="1" Grid.Column="0" FontSize="20"
-                 Margin="15"
-                 Width="Auto"
-                 Height="Auto"
+                 Margin="20"
                  Name="tb1">Введите Url картинки</TextBox>
         
         <Button Grid.Row="2" Grid.Column="0" Name="StartButton1"
-                Width="Auto"
-                Height="Auto"
+                Margin="15"
                 Content="Start"
                 FontSize="20"
                 Command="{Binding StartViewModel.UpdateImageCommand}">
@@ -57,6 +52,7 @@
         </Button>
         
         <Button Grid.Row="3" Grid.Column="0" Name="StopButton1" 
+                Margin="15"
                 Content="Stop"
                 FontSize="20"
                 Command="{Binding StopViewModel.StopImageCommand}">
@@ -77,10 +73,10 @@
         <TextBox Grid.Row="1" Grid.Column="1" 
                  Name="tb2"
                  FontSize="20"
-                 Width="200"
-                 Height="50">Введите Url картинки</TextBox>
+                 Margin="20">Введите Url картинки</TextBox>
         
         <Button Grid.Row="2" Grid.Column="1" Name="StartButton2" 
+                Margin="15"
                 Content="Start"
                 FontSize="20"
                 Command="{Binding StartViewModel.UpdateImageCommand}">
@@ -95,6 +91,7 @@
         </Button>
         
         <Button  Grid.Row="3" Grid.Column="1" Name="StopButton2" 
+                 Margin="15"
                  Content="Stop"
                  FontSize="20"
                  Command="{Binding StopViewModel.StopImageCommand}">
@@ -115,9 +112,11 @@
                 
         <TextBox Grid.Row="1" Grid.Column="2" 
                  Name="tb3"
-                 FontSize="20">Введите Url картинки</TextBox>
+                 FontSize="20"
+                 Margin="20">Введите Url картинки</TextBox>
                 
         <Button Grid.Row="2" Grid.Column="2" Name="StartButton3" 
+                Margin="15"
                 Content="Start"
                 FontSize="20"
                 Command="{Binding StartViewModel.UpdateImageCommand}">
@@ -132,6 +131,7 @@
         </Button>
                 
         <Button Grid.Row="3" Grid.Column="2" Name="StopButton3" 
+                Margin="15"
                 Content="Stop"
                 FontSize="20"
                 Command="{Binding StopViewModel.StopImageCommand}">
@@ -148,12 +148,14 @@
         <!-- Кнопка для остановки загрузки всех картинок за раз -->
         
         <Button Grid.Row="4" Grid.Column="1"
+                Margin="15"
                 FontSize="20"
                 Command="{Binding StopViewModel.StopAllImageCommand}"
                 CommandParameter="{Binding StartViewModel.Images}">Stop All</Button>
                 
         <!-- Прогресс бар для всех трех -->
         <ProgressBar Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"
+                     Margin="20"
                      Minimum="0"
                      Maximum="100"
                      Value="{Binding StartViewModel.LoadingProgress}">

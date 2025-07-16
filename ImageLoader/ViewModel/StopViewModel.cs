@@ -59,7 +59,7 @@ public class StopViewModel : INotifyPropertyChanged
     /// <summary>
     /// Метод для остановки загрузки картинки
     /// </summary>
-    /// <param name="imageConverter">объект ImageConverter</param>
+    /// <param name="imageConverter">Объект ImageConverter</param>
     /// <returns></returns>
     private Task Stop(object imageConverter)
     {
@@ -75,7 +75,7 @@ public class StopViewModel : INotifyPropertyChanged
     /// <summary>
     /// Метод для проверки возможности остановки загрузки картинки
     /// </summary>
-    /// <param name="imageConverter">объект ImageConverter</param>
+    /// <param name="imageConverter">Объект ImageConverter</param>
     /// <returns></returns>
     private bool CanStop(object imageConverter)
     {
